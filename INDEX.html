@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Quadratic & Grade Calculator</title>
+</head>
+<body>
+  <h1>Quadratic Equation Solver</h1>
+  <p>Equation: ax² + bx + c = 0</p>
+
+  a: <input id="a" type="number"><br><br>
+  b: <input id="b" type="number"><br><br>
+  c: <input id="c" type="number"><br><br>
+
+  <button onclick="solve()">Compute</button>
+  <button onclick="clearQuad()">Reset</button>
+  <p id="qResult"></p>
+
+  <hr>
+
+  <h1>Score to Grade Converter</h1>
+  <p>Enter your score (0–100)</p>
+
+  Score: <input id="score" type="number"><br><br>
+  <button onclick="grade()">Compute</button>
+  <button onclick="clearGrade()">Reset</button>
+  <p id="gResult"></p>
+
+  <script>
+    // Quadratic Solver
+    function solve() {
+      let a = parseFloat(document.getElementById("a").value);
+      let b = parseFloat(document.getElementById("b").value);
+      let c = parseFloat(document.getElementById("c").value);
+      let out = document.getElementById("qResult");
+
+      if (isNaN(a) || isNaN(b) || isNaN(c)) {
+        out.textContent = "Please enter all numbers.";
+        return;
+      }
+      if (a === 0) {
+        out.textContent = " 'a' Invalid";
+        return;
+      }
+
+      let D = b*b - 4*a*c;
+      let msg = "Discriminant (D) = " + D + "<br>";
+
+      if (D > 0) {
+        let x1 = (-b + Math.sqrt(D)) / (2*a);
+        let x2 = (-b - Math.sqrt(D)) / (2*a);
+        msg += "Two real roots: x₁ = " + x1.toFixed(2) + ", x₂ = " + x2.toFixed(2);
+      } else if (D === 0) {
+        let x = -b / (2*a);
+        msg += "One repeated root: x = " + x.toFixed(2);
+      } else {
+        let real = (-b / (2*a)).toFixed(2);
+        let imag = (Math.sqrt(-D) / (2*a)).toFixed(2);
+        msg += "Complex roots: " + real + " ± " + imag + "i";
+      }
+      out.innerHTML = msg;
+    }
+
+    function clearQuad() {
+      document.getElementById("a").value = "";
+      document.getElementById("b").value = "";
+      document.getElementById("c").value = "";
+      document.getElementById("qResult").innerHTML = "";
+    }
+
+    // Grading System
+    function grade() {
+      let s = parseInt(document.getElementById("score").value);
+      let g = document.getElementById("gResult");
+
+      if (isNaN(s) || s < 0 || s > 100) {
+        g.textContent = "Enter a valid score between 0 and 100.";
+        return;
+      }
+
+      let grade = "";
+      if (s >= 85) grade = "A+";
+      else if (s >= 75) grade = "A";
+      else if (s >= 65) grade = "B+";
+      else if (s >= 60) grade = "B";
+      else if (s >= 55) grade = "C+";
+      else if (s >= 50) grade = "C";
+      else grade = "D";
+
+      g.textContent = `Score ${s} → Grade ${grade}`;
+    }
+
+    function clearGrade() {
+      document.getElementById("score").value = "";
+      document.getElementById("gResult").textContent = "";
+    }
+  </script>
+</body>
+</html>
